@@ -5,23 +5,19 @@
 # @File    : jsonpath.py
 
 def data_handle(data, jsonpath):  # 第一次调用这个函数的时候，jsonpath 设为 $. 或$
-    templist = []  # 把为字典的value 都放在这里。  这是一个  [{...,jsonpath:jsonpath}]
-    if isinstance(data, dict):  # 第一次jsonpath为 $.
-        # print("111")
+    if isinstance(data, dict):  #判断数据类型，如果是字典类型执行这个
         for key in data:
             if isinstance(data[key], str) or isinstance(data[key], int):
-                # print("22")
                 jsonpath1 = jsonpath + key
                 if key != "jsonpath":
                     print(jsonpath1)  # 这是本次调用该函数可以直接计算出来jsonpath。 这个地方只输出，也可以写到一起txt中
 
             elif isinstance(data[key], dict):
-                dict1 = {}
-                dict1 = data[key]
                 jsonpath1 = jsonpath + key + '.'
-                dict1['jsonpath'] = jsonpath1
-                templist.append(dict1)
-                print(templist)
+                data_handle(data[key],jsonpath1)
+                # dict1['jsonpath'] = jsonpath1
+                # templist.append(dict1)
+                # print(templist)
             elif isinstance(data[key], list):
                 jsonpath1 = jsonpath + key
                 data_handle(data[key], jsonpath1)
@@ -40,9 +36,9 @@ def data_handle(data, jsonpath):  # 第一次调用这个函数的时候，jsonp
                 jsonpath1 = jsonpath + '[' + str(data.index(each)) + ']'
                 if each != "jsonpath":
                     print(jsonpath1)
-    for each in templist:
-        # print(each)
-        data_handle(each, each['jsonpath'])
+    # for each in templist:
+    #     # print(each)
+    #     data_handle(each, each['jsonpath'])
 
 
 data_test={
@@ -50,33 +46,19 @@ data_test={
     "code":1,
     "msg":"default success",
     "resultObject":{
-        "accountVO":{
-            "accountId":3,
-            "account":"yangxue",
-            "accountType":2,
-            "name":"杨雪",
-            "phone":"13566009900",
-            "gsoGroupId":1,
-            "gsoGroupNo":"001",
-            "gsoGroupName":"千禧优选供应链事业群",
-            "gsoSubjectId":57,
-            "gsoSubjectNo":"001.203",
-            "gsoSubjectName":"禧云世纪供应链管理（天津）有限公司",
-            "gsoOrganizationId":88,
-            "gsoOrganizationNo":"001.203.104",
-            "gsoOrganizationName":"临汾集采",
-            "warehouseId":0,
-            "warehouseNo":"",
-            "warehouseName":"",
-            "status":2,
-            "bizModeId":0,
-            "tenantId":0,
-            "platformId":2,
-            "platformNumber":"2",
-            "platformName":"运营中台_管理平台"
-        },
-        "token":"1fd74b114bdb4eeca5dbbb624588433a",
-        "platform":2
+        "roleId":29,
+        "roleNo":"TJS0034",
+        "roleName":"123",
+        "bizModeId":0,
+        "tenantId":0,
+        "platformId":2,
+        "status":2,
+        "creatorId":16,
+        "creatorName":"杨雪",
+        "createTime":"2020-09-17 09:59:35:000",
+        "updateTime":"2020-09-18 14:49:37:000",
+        "leafTaskIds":[6,4]
     }
 }
+
 data_handle(data_test, "$.")#调用函数传入一个data和一个jsonpath的初始值即可

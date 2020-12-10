@@ -28,20 +28,23 @@ class ExcelData():
         # 根据工作表的索引获取工作表的内容（方式②）
         # self.table = self.data.sheet_by_name(0)
         # 获取第一行所有内容,如果括号中1就是第二行，这点跟列表索引类似
-        self.keys = self.table.row_values(0)
+        self.keys = self.table.row_values(1)
+        # print(self.keys)
         # 获取工作表的有效行数
         self.rowNum = self.table.nrows
+        # print(self.rowNum)
         # 获取工作表的有效列数
         self.colNum = self.table.ncols
+        # print(self.colNum)
 
     # 定义一个读取excel表的方法
     def readExcel(self):
         # 定义一个空列表
         datas = []
-        for i in range(1, self.rowNum):
+        for i in range(2, self.rowNum):
             # 定义一个空字典
             sheet_data = {}
-            for j in range(self.colNum):
+            for j in range(1,self.colNum):
                 # 获取单元格数据类型
                 c_type = self.table.cell(i,j).ctype
                 # 获取单元格数据
@@ -63,3 +66,10 @@ class ExcelData():
         # 返回从excel中获取到的数据：以列表存字典的形式返回
         return datas
 
+# e=ExcelData('D:\downloads\data.xlsx','Sheet1')
+# res=e.readExcel()
+# print(res[0])
+
+
+if "__name__"=="__main__":
+    main()
